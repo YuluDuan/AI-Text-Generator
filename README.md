@@ -1,1 +1,1 @@
-# openAI 
+# AI TEXT Gnerator Full Stack 
