@@ -7,14 +7,17 @@ const getRes = async (e) => {
     const prompt = form.elements.prompt.value;
 
     try {
-        const res = await axios.post("https://cors-anywhere.herokuapp.com/http://localhost:3000/", {
+        const res = await fetch("http://localhost:3000", {
+            method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                Accept: 'application/json'
             },
-            body: JSON.stringify({ text: prompt })
+            body: JSON.stringify({ prompt: prompt })
         });
-        console.log(res)
-        return res;
+        if (res.statusText === "Unauthorized") {
+            const text = "I am sorry this API is Unavaliable right now and you need to make a payment in order to deal with the issue: " + res.statusText;
+            return text;
+        } else return res.body.data.output;
     } catch (e) {
         return e;
     }
@@ -29,7 +32,6 @@ const handleSubmit = async (e) => {
     newP.append(respText);
     chatContainer.append(newP);
     form.elements.prompt.value = '';
-
 }
 
 

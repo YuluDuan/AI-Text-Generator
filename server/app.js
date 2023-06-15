@@ -1,15 +1,11 @@
 if (process.env.NODE_ENV !== "production") {
     require('dotenv').config();
 }
-
-// const { Configuration, OpenAIApi } = require("openai");
-// const configuration = new Configuration({
-//     apiKey: process.env.OPENAI_API_KEY,
-// });
-// const openai = new OpenAIApi(configuration);
-
 const express = require('express');
 const app = express();
+const cors = require('cors');
+// Enable CORS for all routes
+app.use(cors());
 
 //To parse form data in POST request body:
 app.use(express.urlencoded({ extended: true }))
@@ -17,28 +13,42 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 
-const deepai = require('deepai'); // OR include deepai.min.js as a script tag in your HTML
-// deepai.setApiKey('quickstart-QUdJIGlzIGNvbWluZy4uLi4K');
+app.get('/', async (req, res) => {
+    res.status(200).send("Hello from lucy!")
 
-
+})
 
 app.post('/', async (req, res) => {
     try {
+        console.log(req)
         const prompt = req.body.prompt;
         console.log(prompt);
-        const text1 = 'Please give me a Blurb following by this following keyword: ' + prompt;
+
+        const text1 = `Please give me a Blurb following by this following keyword:${prompt}`;
+
+        const formData = new FormData();
+        formData.append("text", text1);
+
         console.log(text1);
-        deepai.setApiKey('quickstart-QUdJIGlzIGNvbWluZy4uLi4K');
-        const resp = await deepai.callStandardApi("text-generator", {
-            text: text1
-        });
 
-        console.log(resp);
-        res.send(resp)
+        const config = {
+            method: 'POST',
+            headers: {
+                'Api-Key': '039372d0-1496-4461-8e6b-c19c3264b606',
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            body: formData,
+        };
+        const resp = await fetch('https://api.deepai.org/api/text-generator', config)
+            .then(response => ({
+                status: response.status,
+                body: response.json()
+            }))
+            .then(({ status, body }) => console.log(status, body))
+        res.status(401).send(`You are Unauthorized to this API, if you sill want your Blurb associated with ${prompt}. You need to a make a payment :(`);
     } catch (error) {
-        console.log(error);
+        console.log("i am error", error);
         res.status(500).send(error)
-
     }
 })
 
