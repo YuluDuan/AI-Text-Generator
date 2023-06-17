@@ -1,1 +1,1 @@
-# AI TEXT Gnerator Full Stack 
+# AI Text Gnerator Full Stack 
