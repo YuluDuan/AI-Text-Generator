@@ -1,1 +1,1 @@
-# AI Text Gnerator --- Yulu
+# AI Text Generator Full Stack
