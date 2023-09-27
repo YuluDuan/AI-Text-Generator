@@ -1,1 +1,1 @@
-# AI Text Gnerator - YULU
+# AI Text Gnerator --- Yulu
