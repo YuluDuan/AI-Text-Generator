@@ -1,5 +1,3 @@
-// USE TO TEST GIT
-
 const form = document.querySelector('#promptform');
 const chatContainer = document.querySelector('#chatContainer')
 
